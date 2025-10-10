@@ -12,6 +12,9 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
@@ -243,6 +246,16 @@
                             <i class="bi bi-people-fill"></i> Familiares
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('arbol-genealogico.*') ? 'active fw-bold' : '' }}" href="{{ route('arbol-genealogico.index') }}">
+                            <i class="bi bi-diagram-3-fill"></i> Árbol Genealógico
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('configuracion.*') ? 'active fw-bold' : '' }}" href="{{ route('configuracion.index') }}">
+                            <i class="bi bi-gear-fill"></i> Configuración
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -294,6 +307,133 @@
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- SweetAlert2 Helper Functions -->
+    <script>
+        // Función helper para alertas de éxito
+        function showSuccessAlert(title, text = '') {
+            return Swal.fire({
+                icon: 'success',
+                title: title,
+                text: text,
+                confirmButtonText: '¡Entendido!',
+                confirmButtonColor: '#10b981'
+            });
+        }
+
+        // Función helper para alertas de error
+        function showErrorAlert(title, text = '') {
+            return Swal.fire({
+                icon: 'error',
+                title: title,
+                text: text,
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#ef4444'
+            });
+        }
+
+        // Función helper para alertas de información
+        function showInfoAlert(title, text = '') {
+            return Swal.fire({
+                icon: 'info',
+                title: title,
+                text: text,
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#3b82f6'
+            });
+        }
+
+        // Función helper para alertas de advertencia
+        function showWarningAlert(title, text = '') {
+            return Swal.fire({
+                icon: 'warning',
+                title: title,
+                text: text,
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#f59e0b'
+            });
+        }
+
+        // Función helper para confirmaciones
+        function showConfirmAlert(title, text = '', confirmButtonText = 'Sí, eliminar') {
+            return Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: confirmButtonText,
+                cancelButtonText: 'Cancelar'
+            });
+        }
+
+        // Función helper para confirmaciones de eliminación
+        function showDeleteConfirmAlert(title, text = '') {
+            return Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            });
+        }
+
+        // Función específica para formularios (sincrónica)
+        function confirmDeleteSync(title, text = '') {
+            // Mostrar el alert y esperar la respuesta
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                // Si se confirma, enviar el formulario
+                if (result.isConfirmed) {
+                    // Encontrar el formulario usando el evento actual
+                    const form = event.target.closest('form');
+                    if (form) {
+                        form.submit();
+                    }
+                }
+            });
+            
+            // Retornar false para prevenir el envío inmediato
+            return false;
+        }
+
+        // Función alternativa que funciona con onclick
+        function confirmDeleteWithElement(element, title, text = '') {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = element.closest('form');
+                    if (form) {
+                        form.submit();
+                    }
+                }
+            });
+        }
+    </script>
 
     @yield('scripts')
 </body>

@@ -7,6 +7,7 @@ use App\Models\Parentesco;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 class FamiliarController extends Controller
 {
@@ -132,6 +133,19 @@ class FamiliarController extends Controller
         return redirect()
             ->route('familiares.index')
             ->with('success', '¡Familiar eliminado exitosamente!');
+    }
+
+    /**
+     * API: Obtiene todos los familiares para usar en dropdowns.
+     */
+    public function apiIndex(): JsonResponse
+    {
+        $familiares = Familiar::orderBy('nombre')->get(['id', 'nombre']);
+        
+        return response()->json([
+            'success' => true,
+            'familiares' => $familiares
+        ]);
     }
 }
 

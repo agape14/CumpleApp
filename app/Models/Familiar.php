@@ -72,6 +72,69 @@ class Familiar extends Model
     }
 
     /**
+     * Obtiene las relaciones familiares donde este familiar es el principal.
+     */
+    public function relaciones(): HasMany
+    {
+        return $this->hasMany(RelacionFamiliar::class, 'familiar_id');
+    }
+
+    /**
+     * Obtiene las relaciones familiares donde este familiar es el relacionado.
+     */
+    public function relacionesInversas(): HasMany
+    {
+        return $this->hasMany(RelacionFamiliar::class, 'familiar_relacionado_id');
+    }
+
+    /**
+     * Obtiene todos los hijos del familiar.
+     */
+    public function hijos()
+    {
+        return $this->relaciones()
+            ->whereIn('tipo_relacion', ['hijo', 'hija'])
+            ->with('familiarRelacionado');
+    }
+
+    /**
+     * Obtiene la pareja/esposo(a) del familiar.
+     */
+    public function pareja()
+    {
+        return $this->relaciones()
+            ->whereIn('tipo_relacion', ['esposo', 'esposa', 'pareja'])
+            ->with('familiarRelacionado')
+            ->first();
+    }
+
+    /**
+     * Obtiene los padres del familiar.
+     */
+    public function padres()
+    {
+        return $this->relacionesInversas()
+            ->whereIn('tipo_relacion', ['hijo', 'hija'])
+            ->with('familiar');
+    }
+
+    /**
+     * Obtiene los regalos dados a este familiar.
+     */
+    public function regalosDados(): HasMany
+    {
+        return $this->hasMany(RegaloDado::class);
+    }
+
+    /**
+     * Obtiene los recordatorios configurados para este familiar.
+     */
+    public function recordatorios(): HasMany
+    {
+        return $this->hasMany(Recordatorio::class);
+    }
+
+    /**
      * Accesor para obtener la edad actual del familiar.
      */
     protected function age(): Attribute
