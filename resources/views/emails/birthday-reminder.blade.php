@@ -133,7 +133,7 @@
                 <p><strong>💡 Ideas de Regalos:</strong></p>
                 <ul style="text-align: left; margin: 10px 0;">
                     @foreach($familiar->ideasRegalos->take(3) as $idea)
-                    <li>{{ $idea->idea }} @if($idea->precio_estimado) - ${{ number_format($idea->precio_estimado, 2) }} @endif</li>
+                    <li>{{ $idea->idea }} @if($idea->precio_estimado) - S/ {{ number_format($idea->precio_estimado, 2) }} @endif</li>
                     @endforeach
                 </ul>
             </div>

@@ -161,32 +161,113 @@
         }
 
         .stat-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            padding: 2rem 1.5rem;
+            text-align: left;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            color: white;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
+        /* Ícono de fondo grande y semi-transparente */
         .stat-card .stat-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            opacity: 0.2;
+            color: white;
+            z-index: 1;
+        }
+
+        .stat-card .stat-content {
+            position: relative;
+            z-index: 2;
         }
 
         .stat-card .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: white;
+            line-height: 1;
         }
 
         .stat-card .stat-label {
-            color: #6b7280;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-change {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
             font-weight: 500;
+        }
+
+        .stat-card .stat-change i {
+            font-size: 0.75rem;
+        }
+
+        /* Colores sólidos como la imagen */
+        .stat-card.bg-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stat-card.bg-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-card.bg-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stat-card.bg-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .stat-card.bg-info {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .stat-card.bg-purple {
+            background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+        }
+
+        .stat-card.bg-pink {
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+        }
+
+        .stat-card.bg-indigo {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        }
+
+        /* Variantes glass - mantener compatibilidad */
+        .stat-card.glass-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stat-card.glass-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-card.glass-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stat-card.glass-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
 
         .birthday-card {
@@ -252,9 +333,35 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('cuotas-mensuales.*') ? 'active fw-bold' : '' }}" href="{{ route('cuotas-mensuales.index') }}">
+                            <i class="bi bi-cash-coin"></i> Cuotas Mensuales
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('configuracion.*') ? 'active fw-bold' : '' }}" href="{{ route('configuracion.index') }}">
                             <i class="bi bi-gear-fill"></i> Configuración
                         </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> {{ Session::get('familiar_nombre', 'Usuario') }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-person-vcard"></i> DNI: {{ Session::get('familiar_dni', '-') }}
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

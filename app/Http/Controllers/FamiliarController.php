@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Session;
 
 class FamiliarController extends Controller
 {
@@ -60,6 +61,14 @@ class FamiliarController extends Controller
         ]);
 
         $validated['notificar'] = $request->has('notificar');
+        $validated['puede_acceder'] = $request->has('puede_acceder');
+        
+        // Solo asignar created_by/updated_by si hay un usuario autenticado
+        $familiarId = Session::get('familiar_id');
+        if ($familiarId) {
+            $validated['created_by'] = $familiarId;
+            $validated['updated_by'] = $familiarId;
+        }
 
         Familiar::create($validated);
 
@@ -115,6 +124,13 @@ class FamiliarController extends Controller
         ]);
 
         $validated['notificar'] = $request->has('notificar');
+        $validated['puede_acceder'] = $request->has('puede_acceder');
+        
+        // Solo asignar updated_by si hay un usuario autenticado
+        $familiarId = Session::get('familiar_id');
+        if ($familiarId) {
+            $validated['updated_by'] = $familiarId;
+        }
 
         $familiar->update($validated);
 

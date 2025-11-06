@@ -160,7 +160,7 @@
                                 <p class="mb-1">
                                     <small class="text-muted">
                                         <i class="bi bi-currency-dollar"></i> 
-                                        Precio estimado: ${{ number_format($idea->precio_estimado, 2) }}
+                                        Precio estimado: S/ {{ number_format($idea->precio_estimado, 2) }}
                                     </small>
                                 </p>
                                 @endif
@@ -224,7 +224,7 @@
                             <small class="text-muted">Compradas</small>
                         </div>
                         <div class="col-4">
-                            <h5 class="text-warning">${{ number_format($precioTotal, 2) }}</h5>
+                            <h5 class="text-warning">S/ {{ number_format($precioTotal, 2) }}</h5>
                             <small class="text-muted">Precio Total</small>
                         </div>
                     </div>

@@ -37,12 +37,16 @@ class Familiar extends Model
      */
     protected $fillable = [
         'nombre',
+        'dni',
+        'puede_acceder',
         'fecha_nacimiento',
         'telefono',
         'email',
         'notificar',
         'notas',
         'parentesco_id',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -132,6 +136,30 @@ class Familiar extends Model
     public function recordatorios(): HasMany
     {
         return $this->hasMany(Recordatorio::class);
+    }
+
+    /**
+     * Obtiene las cuotas mensuales del hermano.
+     */
+    public function cuotasMensuales(): HasMany
+    {
+        return $this->hasMany(CuotaMensual::class, 'hermano_id');
+    }
+
+    /**
+     * Obtiene el familiar que creó este registro.
+     */
+    public function creador(): BelongsTo
+    {
+        return $this->belongsTo(Familiar::class, 'created_by');
+    }
+
+    /**
+     * Obtiene el familiar que actualizó este registro por última vez.
+     */
+    public function editor(): BelongsTo
+    {
+        return $this->belongsTo(Familiar::class, 'updated_by');
     }
 
     /**

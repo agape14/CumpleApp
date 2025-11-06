@@ -14,7 +14,7 @@
                     @csrf
 
                     <div class="row">
-                        <div class="col-md-8 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="nombre" class="form-label">
                                 <i class="bi bi-person"></i> Nombre Completo *
                             </label>
@@ -30,7 +30,23 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-3 mb-3">
+                            <label for="dni" class="form-label">
+                                <i class="bi bi-person-vcard"></i> DNI
+                            </label>
+                            <input type="text" 
+                                   class="form-control @error('dni') is-invalid @enderror" 
+                                   id="dni" 
+                                   name="dni" 
+                                   value="{{ old('dni') }}"
+                                   placeholder="12345678">
+                            @error('dni')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="text-muted">Para acceso al sistema</small>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
                             <label for="parentesco_id" class="form-label">
                                 <i class="bi bi-heart"></i> Parentesco *
                             </label>
@@ -113,17 +129,34 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" 
-                                   type="checkbox" 
-                                   id="notificar" 
-                                   name="notificar" 
-                                   value="1"
-                                   {{ old('notificar', true) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="notificar">
-                                <i class="bi bi-bell"></i> Recibir notificaciones de cumpleaños
-                            </label>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="notificar" 
+                                       name="notificar" 
+                                       value="1"
+                                       {{ old('notificar', true) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="notificar">
+                                    <i class="bi bi-bell"></i> Recibir notificaciones de cumpleaños
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                       type="checkbox" 
+                                       id="puede_acceder" 
+                                       name="puede_acceder" 
+                                       value="1"
+                                       {{ old('puede_acceder', false) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="puede_acceder">
+                                    <i class="bi bi-shield-check"></i> Puede acceder al sistema
+                                </label>
+                                <br><small class="text-muted">Requiere DNI configurado</small>
+                            </div>
                         </div>
                     </div>
 

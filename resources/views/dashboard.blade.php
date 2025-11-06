@@ -15,32 +15,38 @@
 
     <!-- Estadísticas principales -->
     <div class="col-md-4 mb-4">
-        <div class="stat-card">
-            <div class="stat-icon text-primary">
+        <div class="stat-card bg-primary">
+            <div class="stat-icon">
                 <i class="bi bi-people-fill"></i>
             </div>
-            <div class="stat-number text-primary">{{ $totalFamiliares }}</div>
-            <div class="stat-label">Total Familiares</div>
+            <div class="stat-content">
+                <div class="stat-number">{{ $totalFamiliares }}</div>
+                <div class="stat-label">Total Familiares</div>
+            </div>
         </div>
     </div>
 
     <div class="col-md-4 mb-4">
-        <div class="stat-card">
-            <div class="stat-icon text-success">
+        <div class="stat-card bg-info">
+            <div class="stat-icon">
                 <i class="bi bi-calendar-event-fill"></i>
             </div>
-            <div class="stat-number text-success">{{ $cumpleanosMesActual->count() }}</div>
-            <div class="stat-label">Cumpleaños este mes</div>
+            <div class="stat-content">
+                <div class="stat-number">{{ $cumpleanosMesActual->count() }}</div>
+                <div class="stat-label">Cumpleaños este mes</div>
+            </div>
         </div>
     </div>
 
     <div class="col-md-4 mb-4">
-        <div class="stat-card">
-            <div class="stat-icon text-danger">
+        <div class="stat-card bg-pink">
+            <div class="stat-icon">
                 <i class="bi bi-gift-fill"></i>
             </div>
-            <div class="stat-number text-danger">{{ $cumpleanosHoy->count() }}</div>
-            <div class="stat-label">Cumpleaños hoy</div>
+            <div class="stat-content">
+                <div class="stat-number">{{ $cumpleanosHoy->count() }}</div>
+                <div class="stat-label">Cumpleaños hoy</div>
+            </div>
         </div>
     </div>
 

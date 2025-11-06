@@ -30,39 +30,47 @@
                     <!-- Estadísticas -->
                     <div class="row mb-4">
                         <div class="col-md-3">
-                            <div class="stat-card">
-                                <div class="stat-icon text-primary">
-                                    <i class="bi bi-gift"></i>
+                            <div class="stat-card bg-purple">
+                                <div class="stat-icon">
+                                    <i class="bi bi-gift-fill"></i>
                                 </div>
-                                <div class="stat-number">{{ $regalos->count() }}</div>
-                                <div class="stat-label">Regalos Dados</div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ $regalos->count() }}</div>
+                                    <div class="stat-label">Regalos Dados</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="stat-card">
-                                <div class="stat-icon text-success">
+                            <div class="stat-card bg-success">
+                                <div class="stat-icon">
                                     <i class="bi bi-cash-stack"></i>
                                 </div>
-                                <div class="stat-number">${{ number_format($regalos->sum('precio'), 2) }}</div>
-                                <div class="stat-label">Total Gastado</div>
+                                <div class="stat-content">
+                                    <div class="stat-number">S/ {{ number_format($regalos->sum('precio'), 2) }}</div>
+                                    <div class="stat-label">Total Gastado</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="stat-card">
-                                <div class="stat-icon text-warning">
+                            <div class="stat-card bg-warning">
+                                <div class="stat-icon">
                                     <i class="bi bi-calculator"></i>
                                 </div>
-                                <div class="stat-number">${{ number_format($regalos->avg('precio'), 2) }}</div>
-                                <div class="stat-label">Promedio</div>
+                                <div class="stat-content">
+                                    <div class="stat-number">S/ {{ number_format($regalos->avg('precio') ?? 0, 2) }}</div>
+                                    <div class="stat-label">Promedio</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="stat-card">
-                                <div class="stat-icon text-danger">
-                                    <i class="bi bi-calendar-event"></i>
+                            <div class="stat-card bg-info">
+                                <div class="stat-icon">
+                                    <i class="bi bi-calendar-event-fill"></i>
                                 </div>
-                                <div class="stat-number">{{ $regalos->first()->fecha_entrega->format('Y') }}</div>
-                                <div class="stat-label">Último Regalo</div>
+                                <div class="stat-content">
+                                    <div class="stat-number">{{ $regalos->first() ? $regalos->first()->fecha_entrega->format('Y') : '-' }}</div>
+                                    <div class="stat-label">Último Regalo</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,7 +118,7 @@
                                     </td>
                                     <td>
                                         @if($regalo->precio)
-                                            <strong class="text-success">${{ number_format($regalo->precio, 2) }}</strong>
+                                            <strong class="text-success">S/ {{ number_format($regalo->precio, 2) }}</strong>
                                         @else
                                             <span class="text-muted">-</span>
                                         @endif

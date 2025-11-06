@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FamiliarController;
 use App\Http\Controllers\IdeaRegaloController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,14 @@ use Illuminate\Support\Facades\Route;
 | al grupo de middleware "web".
 |
 */
+
+// Rutas de autenticación (sin middleware)
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Rutas protegidas (requieren autenticación)
+Route::middleware(['familiar.auth'])->group(function () {
 
 // Ruta principal - Dashboard
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -140,4 +149,40 @@ Route::post('configuracion/restablecer', [App\Http\Controllers\ConfiguracionCont
 // API para obtener familiares (para dropdowns)
 Route::get('api/familiares', [App\Http\Controllers\FamiliarController::class, 'apiIndex'])
     ->name('api.familiares');
+
+// Rutas para cuotas mensuales
+Route::get('cuotas-mensuales', [App\Http\Controllers\CuotaMensualController::class, 'index'])
+    ->name('cuotas-mensuales.index');
+
+Route::get('cuotas-mensuales/historial', [App\Http\Controllers\CuotaMensualController::class, 'historial'])
+    ->name('cuotas-mensuales.historial');
+
+Route::post('cuotas-mensuales', [App\Http\Controllers\CuotaMensualController::class, 'store'])
+    ->name('cuotas-mensuales.store');
+
+Route::put('cuotas-mensuales/{cuota}', [App\Http\Controllers\CuotaMensualController::class, 'update'])
+    ->name('cuotas-mensuales.update');
+
+Route::delete('cuotas-mensuales/{cuota}', [App\Http\Controllers\CuotaMensualController::class, 'destroy'])
+    ->name('cuotas-mensuales.destroy');
+
+Route::post('cuotas-mensuales/{cuota}/marcar-pagada', [App\Http\Controllers\CuotaMensualController::class, 'marcarPagada'])
+    ->name('cuotas-mensuales.marcar-pagada');
+
+Route::post('cuotas-mensuales/generar-mes', [App\Http\Controllers\CuotaMensualController::class, 'generarCuotasMes'])
+    ->name('cuotas-mensuales.generar-mes');
+
+Route::get('cuotas-mensuales/estadisticas', [App\Http\Controllers\CuotaMensualController::class, 'estadisticas'])
+    ->name('cuotas-mensuales.estadisticas');
+
+Route::get('cuotas-mensuales/colectas-especiales', [App\Http\Controllers\CuotaMensualController::class, 'colectasEspeciales'])
+    ->name('cuotas-mensuales.colectas-especiales');
+
+Route::post('cuotas-mensuales/crear-colecta', [App\Http\Controllers\CuotaMensualController::class, 'crearColecta'])
+    ->name('cuotas-mensuales.crear-colecta');
+
+Route::post('cuotas-mensuales/registrar-aporte', [App\Http\Controllers\CuotaMensualController::class, 'registrarAporte'])
+    ->name('cuotas-mensuales.registrar-aporte');
+
+}); // Fin del grupo de rutas protegidas
 
