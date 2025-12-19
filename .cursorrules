@@ -1,0 +1,298 @@
+# CumpleApp - Reglas y Contexto para Cursor
+
+## 📋 Contexto del Proyecto
+
+**CumpleApp** es una aplicación web desarrollada en Laravel 11 para gestionar y recordar los cumpleaños de familiares y amigos. Incluye un sistema automatizado de notificaciones, gestión de regalos, relaciones familiares, árbol genealógico, y sistema de cuotas mensuales.
+
+### Stack Tecnológico
+- **Backend**: Laravel 11, PHP 8.2+
+- **Base de Datos**: MySQL 5.7+
+- **Frontend**: Blade Templates, Bootstrap 5.3.2, Bootstrap Icons, Chart.js 4.4.0
+- **Autenticación**: Sistema personalizado con middleware `familiar.auth`
+- **Email**: Laravel Mail (SMTP)
+- **APIs**: Google Calendar, WhatsApp (Twilio)
+
+## 🏗️ Arquitectura y Estructura
+
+### Modelos Principales
+- `Familiar`: Modelo central con relaciones a todos los demás
+- `Parentesco`: Tipos de parentesco (Padre, Madre, Hermano, etc.)
+- `IdeaRegalo`: Ideas de regalos asociadas a familiares
+- `RelacionFamiliar`: Relaciones entre familiares (padres, hijos, pareja)
+- `RegaloDado`: Historial de regalos dados
+- `Recordatorio`: Recordatorios personalizados por familiar
+- `CuotaMensual`: Sistema de cuotas mensuales para hermanos
+- `ConfiguracionUsuario`: Configuraciones del usuario
+
+### Relaciones Eloquent Importantes
+```php
+Familiar::class
+  - belongsTo(Parentesco::class)
+  - hasMany(IdeaRegalo::class)
+  - hasMany(RelacionFamiliar::class, 'familiar_id')
+  - hasMany(RelacionFamiliar::class, 'familiar_relacionado_id')
+  - hasMany(RegaloDado::class)
+  - hasMany(Recordatorio::class)
+  - hasMany(CuotaMensual::class, 'hermano_id')
+  - belongsTo(Familiar::class, 'created_by')
+  - belongsTo(Familiar::class, 'updated_by')
+```
+
+### Accesorios del Modelo Familiar
+- `age`: Edad actual calculada
+- `zodiacSign`: Signo zodiacal calculado
+- `next_birthday`: Próximo cumpleaños
+- `days_until_birthday`: Días hasta el próximo cumpleaños
+
+## 📝 Convenciones de Código
+
+### Nomenclatura
+- **Tablas y campos de BD**: Español (snake_case)
+  - Ejemplos: `familiares`, `fecha_nacimiento`, `parentesco_id`
+- **Clases y métodos**: Inglés (PascalCase para clases, camelCase para métodos)
+  - Ejemplos: `FamiliarController`, `getNextBirthdayAttribute()`
+- **Rutas**: Español (kebab-case)
+  - Ejemplos: `/familiares`, `/cuotas-mensuales`, `/arbol-genealogico`
+
+### Estándares de Código
+- ✅ **PSR-12** coding standards
+- ✅ **Código documentado** con PHPDoc
+- ✅ **Validaciones robustas** en controladores
+- ✅ **Type hints** en métodos (return types)
+- ✅ **Eager loading** para optimizar consultas
+- ✅ **Separación de responsabilidades**
+
+### Estructura de Controladores
+```php
+// Métodos estándar para Resource Controllers
+public function index(): View
+public function create(): View
+public function store(Request $request): RedirectResponse
+public function show(Familiar $familiar): View
+public function edit(Familiar $familiar): View
+public function update(Request $request, Familiar $familiar): RedirectResponse
+public function destroy(Familiar $familiar): RedirectResponse
+```
+
+### Validación de Datos
+- Siempre usar `$request->validate()` en controladores
+- Mensajes de validación personalizados en español
+- Validar relaciones con `exists:tabla,id`
+
+### Vistas Blade
+- Layout principal: `resources/views/layouts/app.blade.php`
+- Usar componentes de Bootstrap 5
+- Iconos de Bootstrap Icons
+- Mensajes de éxito/error con sesiones flash
+- Protección CSRF en todos los formularios
+
+## 🔐 Seguridad
+
+- ✅ **Protección CSRF** en todos los formularios (`@csrf`)
+- ✅ **Validación de datos** en backend (nunca confiar solo en frontend)
+- ✅ **Sanitización de inputs** automática con Eloquent
+- ✅ **Integridad referencial** en base de datos
+- ✅ **Eliminación en cascada** configurada en migraciones
+- ✅ **Escapado automático** en Blade (`{{ }}`)
+- ✅ **Middleware de autenticación** `familiar.auth` para rutas protegidas
+
+## 🎨 Frontend y UI/UX
+
+### Diseño
+- **Paleta de colores**: Gradientes púrpura-azul (#667eea → #764ba2)
+- **Tipografía**: Segoe UI, sans-serif
+- **Iconografía**: Bootstrap Icons 1.11.1
+- **Animaciones**: Transiciones CSS suaves
+- **Responsividad**: Mobile-first con Bootstrap 5
+
+### Componentes Visuales
+- Cards con sombras y hover effects
+- Botones con border-radius redondeado
+- Badges coloridos para estados
+- Tablas con hover interactivo
+- Formularios con validación visual
+- Gráficos de barras animados (Chart.js)
+- Modales para acciones secundarias
+
+### Mensajes al Usuario
+- Usar sesiones flash para mensajes: `Session::flash('success', 'Mensaje')`
+- Mostrar mensajes con Bootstrap alerts
+- Iconos descriptivos (✅, ❌, ⚠️, 💡)
+
+## 🗄️ Base de Datos
+
+### Convenciones de Migraciones
+- Nombres de tablas en plural y español: `familiares`, `parentescos`
+- Campos de auditoría: `created_by`, `updated_by`, `created_at`, `updated_at`
+- Relaciones con `foreignId()` y `constrained()->onDelete('cascade')`
+- Índices en campos de búsqueda frecuente
+
+### Campos Importantes
+- `familiares.dni`: DNI del familiar (puede ser null)
+- `familiares.puede_acceder`: Boolean para control de acceso
+- `familiares.notificar`: Boolean para activar/desactivar notificaciones
+- `cuotas_mensuales.tipo_cuota`: 'mensual' o 'especial'
+- `cuotas_mensuales.anio` y `mes`: Pueden ser null para colectas especiales
+
+## 🚀 Comandos Artisan
+
+### Comandos Existentes
+- `php artisan familiar:listar` - Lista todos los familiares
+- `php artisan familiar:buscar [nombre]` - Buscar familiar por nombre
+- `php artisan familiar:dni {id} {dni}` - Asignar DNI a familiar
+- `php artisan birthdays:send-reminders` - Enviar recordatorios de cumpleaños
+
+### Estructura de Comandos
+```php
+protected $signature = 'comando:accion {argumento} {--opcion}';
+protected $description = 'Descripción del comando';
+public function handle() { /* lógica */ }
+```
+
+## 📧 Sistema de Notificaciones
+
+- Comando programado: `birthdays:send-reminders` (diario a las 8:00 AM)
+- Mailable: `BirthdayReminderMail`
+- Plantilla: `resources/views/emails/birthday-reminder.blade.php`
+- Configuración en `app/Console/Kernel.php`
+
+## 🔄 Rutas y Middleware
+
+### Rutas Protegidas
+Todas las rutas (excepto login) están protegidas con middleware `familiar.auth`:
+```php
+Route::middleware(['familiar.auth'])->group(function () {
+    // Rutas protegidas aquí
+});
+```
+
+### Rutas Principales
+- `/` - Dashboard
+- `/familiares` - CRUD de familiares
+- `/cuotas-mensuales` - Gestión de cuotas
+- `/arbol-genealogico` - Visualización de árbol
+- `/configuracion` - Configuración del usuario
+
+## 🎯 Reglas Generales para Desarrollo
+
+### Al Crear Nuevas Funcionalidades
+
+1. **Modelos**:
+   - Definir relaciones Eloquent
+   - Agregar campos a `$fillable`
+   - Configurar `$casts` para tipos de datos
+   - Agregar accesorios si es necesario
+   - Documentar con PHPDoc
+
+2. **Controladores**:
+   - Validar todos los inputs
+   - Usar type hints en métodos
+   - Retornar tipos específicos (View, RedirectResponse, JsonResponse)
+   - Usar eager loading para optimizar consultas
+   - Manejar errores apropiadamente
+
+3. **Migraciones**:
+   - Nombres descriptivos con fecha
+   - Campos en español (snake_case)
+   - Agregar índices donde sea necesario
+   - Configurar relaciones con foreign keys
+   - Agregar campos de auditoría si aplica
+
+4. **Vistas**:
+   - Usar layout principal
+   - Proteger formularios con `@csrf`
+   - Mostrar mensajes de validación
+   - Usar componentes de Bootstrap
+   - Hacer responsive
+
+5. **Rutas**:
+   - Agregar al grupo de middleware apropiado
+   - Usar nombres descriptivos en español
+   - Agregar validación de parámetros si es necesario
+
+### Al Modificar Código Existente
+
+- ✅ Mantener consistencia con el código existente
+- ✅ No cambiar convenciones establecidas
+- ✅ Actualizar documentación si es necesario
+- ✅ Probar que las relaciones Eloquent sigan funcionando
+- ✅ Verificar que las validaciones sean correctas
+- ✅ Asegurar que las vistas sean responsive
+
+### Buenas Prácticas
+
+- ✅ **Eager Loading**: Usar `with()` para evitar N+1 queries
+- ✅ **Validación**: Siempre validar en backend
+- ✅ **Mensajes**: Usar español para mensajes al usuario
+- ✅ **Código limpio**: Nombres descriptivos, código documentado
+- ✅ **Optimización**: Usar índices en BD, optimizar consultas
+- ✅ **Seguridad**: Nunca confiar en datos del cliente
+- ✅ **UX**: Feedback visual, mensajes claros, diseño intuitivo
+
+## 📚 Recursos y Documentación
+
+### Archivos de Documentación
+- `README.md` - Documentación principal
+- `ESTRUCTURA_PROYECTO.md` - Estructura completa
+- `RESUMEN_EJECUTIVO.md` - Resumen del proyecto
+- `GUIA_AUTENTICACION.md` - Sistema de autenticación
+- `GUIA_COMANDOS_ARTISAN.md` - Comandos disponibles
+
+### Comandos Útiles
+```bash
+# Desarrollo
+php artisan serve
+php artisan migrate
+php artisan migrate:fresh --seed
+
+# Limpiar caché
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+php artisan route:clear
+
+# Optimización
+php artisan optimize
+php artisan config:cache
+php artisan route:cache
+```
+
+## ⚠️ Consideraciones Importantes
+
+1. **Autenticación**: El sistema usa autenticación personalizada, NO Laravel Auth estándar
+2. **Idioma**: Mensajes al usuario en español, código en inglés
+3. **Base de Datos**: Nombres de tablas y campos en español
+4. **Relaciones**: Muchas relaciones complejas entre modelos, revisar antes de modificar
+5. **Auditoría**: Campos `created_by` y `updated_by` para tracking
+6. **Cuotas**: Sistema especial para cuotas mensuales y colectas especiales
+
+## 🎓 Patrones y Estructuras Comunes
+
+### Estructura de Respuesta JSON
+```php
+return response()->json([
+    'success' => true,
+    'message' => 'Operación exitosa',
+    'data' => $data
+]);
+```
+
+### Estructura de Mensajes Flash
+```php
+Session::flash('success', 'Operación realizada correctamente');
+Session::flash('error', 'Ocurrió un error');
+```
+
+### Estructura de Validación
+```php
+$validated = $request->validate([
+    'campo' => 'required|tipo|reglas',
+], [
+    'campo.required' => 'Mensaje personalizado en español',
+]);
+```
+
+---
+
+**Nota**: Este archivo debe mantenerse actualizado conforme el proyecto evolucione. Siempre revisar la estructura actual del proyecto antes de hacer cambios significativos.
+

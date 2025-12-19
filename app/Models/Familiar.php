@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Laravel\Sanctum\HasApiTokens;
 use Carbon\Carbon;
 
 class Familiar extends Model
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
 
     /**
      * El nombre de la tabla asociada al modelo.
