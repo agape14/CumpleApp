@@ -12,10 +12,12 @@ CumpleApp es una aplicación web moderna y elegante para gestionar y recordar lo
 - 📅 **Gestión de Familiares**: Registra información completa de tus familiares y amigos
 - 🎁 **Ideas de Regalos**: Guarda y organiza ideas de regalos para cada persona
 - 🔔 **Notificaciones Automáticas**: Recibe recordatorios por email de cumpleaños
+- 🔥 **Notificaciones Push**: Notificaciones móviles con Firebase Cloud Messaging
 - 📊 **Dashboard Interactivo**: Visualiza estadísticas y próximos cumpleaños
 - ♐ **Signos Zodiacales**: Calcula automáticamente el signo zodiacal
 - 🎨 **Interfaz Moderna**: Diseño responsivo con Bootstrap 5
 - 📱 **Acciones Rápidas**: Llamadas y emails directos desde la app
+- 🌐 **API REST**: API completa para integración con apps móviles
 
 ## 🚀 Requisitos
 
@@ -201,11 +203,17 @@ php artisan migrate:rollback
 # Refrescar base de datos (¡cuidado, borra todos los datos!)
 php artisan migrate:fresh --seed
 
-# Enviar recordatorios manualmente
+# Enviar recordatorios por email manualmente
 php artisan birthdays:send-reminders
+
+# Enviar notificaciones push manualmente
+php artisan birthdays:send-notifications
 
 # Ver lista de rutas
 php artisan route:list
+
+# Ver comandos de Firebase
+# Ver: COMANDOS_FIREBASE.md para más comandos
 ```
 
 ## 📧 Configuración de Email
@@ -257,11 +265,21 @@ Sistema completo para gestionar ideas de regalos con precios y links de compra.
 
 - [ ] Exportar cumpleaños a Google Calendar
 - [ ] Notificaciones por WhatsApp
-- [ ] Historial de regalos dados
-- [ ] Recordatorios personalizados (X días antes)
+- [x] Historial de regalos dados ✅
+- [x] Recordatorios personalizados (X días antes) ✅
 - [ ] Temas personalizables
-- [ ] API REST
-- [ ] Aplicación móvil
+- [x] API REST ✅
+- [x] Notificaciones Push (Firebase) ✅
+- [ ] Aplicación móvil (en desarrollo)
+
+## 📚 Documentación Adicional
+
+- **[FIREBASE_README.md](FIREBASE_README.md)** - Índice de documentación Firebase
+- **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)** - Guía completa de configuración Firebase
+- **[COMANDOS_FIREBASE.md](COMANDOS_FIREBASE.md)** - Comandos útiles para Firebase
+- **[ESTRUCTURA_PROYECTO.md](ESTRUCTURA_PROYECTO.md)** - Estructura completa del proyecto
+- **[GUIA_AUTENTICACION.md](GUIA_AUTENTICACION.md)** - Sistema de autenticación
+- **[GUIA_COMANDOS_ARTISAN.md](GUIA_COMANDOS_ARTISAN.md)** - Comandos Artisan disponibles
 
 ## ❓ Soporte
 

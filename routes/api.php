@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\Api\DashboardApiController;
 use App\Http\Controllers\Api\FamiliarApiController;
+use App\Http\Controllers\Api\FcmTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,10 @@ Route::prefix('v1')->group(function () {
     // Rutas públicas (sin autenticación)
     Route::post('/login', [AuthApiController::class, 'login']);
     Route::get('/dashboard/public', [DashboardApiController::class, 'publicDashboard']);
+    
+    // FCM Token - Puede ser con o sin autenticación
+    Route::post('/fcm-token', [FcmTokenController::class, 'store']);
+    Route::delete('/fcm-token', [FcmTokenController::class, 'destroy']);
     
     // Rutas protegidas (requieren autenticación con Sanctum)
     Route::middleware('auth:sanctum')->group(function () {

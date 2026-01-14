@@ -11,7 +11,7 @@ APP_NAME=CumpleApp
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
-APP_TIMEZONE=America/Mexico_City
+APP_TIMEZONE=America/Lima
 APP_URL=http://localhost
 
 APP_LOCALE=es
@@ -148,7 +148,7 @@ Ajusta `APP_TIMEZONE` según tu ubicación:
 
 ```env
 # México
-APP_TIMEZONE=America/Mexico_City
+APP_TIMEZONE=America/Lima
 
 # España
 APP_TIMEZONE=Europe/Madrid
@@ -170,7 +170,7 @@ APP_TIMEZONE=America/Bogota
 | `APP_NAME` | Nombre de la aplicación | CumpleApp |
 | `APP_ENV` | Entorno (local/production) | local |
 | `APP_DEBUG` | Modo debug | true |
-| `APP_TIMEZONE` | Zona horaria | America/Mexico_City |
+| `APP_TIMEZONE` | Zona horaria | America/Lima |
 | `DB_DATABASE` | Nombre de la BD | cumpleapp |
 | `DB_USERNAME` | Usuario de BD | root |
 | `DB_PASSWORD` | Contraseña de BD | (vacío) |

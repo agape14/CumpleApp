@@ -12,10 +12,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // Enviar recordatorios de cumpleaños todos los días a las 8:00 AM
+        // Enviar recordatorios de cumpleaños por email todos los días a las 8:00 AM
         $schedule->command('birthdays:send-reminders')
             ->dailyAt('08:00')
-            ->timezone('America/Mexico_City'); // Ajusta según tu zona horaria
+            ->timezone('America/Lima'); // Ajusta según tu zona horaria
+        
+        // Enviar notificaciones push de cumpleaños todos los días a las 8:00 AM
+        $schedule->command('birthdays:send-notifications')
+            ->dailyAt('08:00')
+            ->timezone('America/Lima');
     }
 
     /**

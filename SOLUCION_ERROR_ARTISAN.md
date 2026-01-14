@@ -141,7 +141,7 @@ APP_NAME=CumpleApp
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
-APP_TIMEZONE=America/Mexico_City
+APP_TIMEZONE=America/Lima
 APP_URL=http://localhost
 
 APP_LOCALE=es

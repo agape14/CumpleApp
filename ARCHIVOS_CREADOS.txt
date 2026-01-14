@@ -121,7 +121,7 @@
     ✅ Kernel.php
        - Scheduler configurado
        - Ejecuta birthdays:send-reminders diariamente a las 8:00 AM
-       - Zona horaria: America/Mexico_City (configurable)
+       - Zona horaria: America/Lima (configurable)
 
 ═══════════════════════════════════════════════════════════════════════════════
 

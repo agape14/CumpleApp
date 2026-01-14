@@ -122,7 +122,7 @@ class GoogleCalendarController extends Controller
             'details' => $descripcion,
             'dates' => "{$fechaInicio}/{$fechaFin}",
             'recur' => 'RRULE:FREQ=YEARLY', // Evento anual
-            'ctz' => 'America/Mexico_City', // Zona horaria
+            'ctz' => 'America/Lima', // Zona horaria
         ];
 
         return 'https://calendar.google.com/calendar/render?' . http_build_query($params);
@@ -139,7 +139,7 @@ class GoogleCalendarController extends Controller
         $ics .= "CALSCALE:GREGORIAN\r\n";
         $ics .= "METHOD:PUBLISH\r\n";
         $ics .= "X-WR-CALNAME:Cumpleaños - CumpleApp\r\n";
-        $ics .= "X-WR-TIMEZONE:America/Mexico_City\r\n";
+        $ics .= "X-WR-TIMEZONE:America/Lima\r\n";
 
         foreach ($familiares as $familiar) {
             $ics .= $this->generarEventoICS($familiar);

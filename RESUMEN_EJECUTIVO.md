@@ -146,7 +146,7 @@ Email:    Laravel Mail (SMTP)
 # Scheduler configurado en app/Console/Kernel.php
 $schedule->command('birthdays:send-reminders')
     ->dailyAt('08:00')
-    ->timezone('America/Mexico_City');
+    ->timezone('America/Lima');
 ```
 
 ## 📋 Checklist de Implementación

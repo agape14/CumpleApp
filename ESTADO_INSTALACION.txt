@@ -96,7 +96,7 @@ Configuración actual (.env):
   APP_NAME=CumpleApp
   APP_ENV=local
   APP_DEBUG=true
-  APP_TIMEZONE=America/Mexico_City
+  APP_TIMEZONE=America/Lima
   APP_KEY=[Configurada] ✅
   
   DB_CONNECTION=mysql
